@@ -1,0 +1,6 @@
+"","Species","Site","Assessment","	Year","Method","SampleSize","Value","LowerCI","UpperCI","SD","Metric","Flag"
+"1","Chlorurus_sordidus","All","LBAR",2014,"LBAR",1950,"-0.490662477696575",NA,NA,NA,"FvM","LBAR Failed, Estimated Z too low"
+"2","Naso_lituratus","All","LBAR",2014,"LBAR",168,"16.5419691941404",NA,NA,NA,"FvM","None"
+"3","Scarus_psittacus","All","LBAR",2014,"LBAR",1618,"0.173737050787913",NA,NA,NA,"FvM","None"
+"4","Scarus_rubroviolaceus","All","LBAR",2014,"LBAR",63,"6.87039598492178",NA,NA,NA,"FvM","None"
+"5",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
