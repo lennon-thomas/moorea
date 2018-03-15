@@ -55,9 +55,9 @@ LBAR<-function(LengthDat,LagLength,Weight,IncludeMPA,ReserveYr,OutsideBoundYr,It
   
   SampleSize<- NA
   
-  Output<- as.data.frame(matrix(NA,nrow=length(Years),ncol=9))
+  Output<- as.data.frame(matrix(NA,nrow=length(Years),ncol=10))
   
-  colnames(Output)<- c('Year','Method','SampleSize','Value','LowerCI','UpperCI','SD','Metric','Flag')
+  colnames(Output)<- c('Year','Method','SampleSize','Lc','Lbar','FvM','LowerCI','UpperCI','SD','Flag')
   
   MCOutput<- as.data.frame(matrix(NA,nrow=length(Years),ncol=7))
   
@@ -304,6 +304,9 @@ LBAR<-function(LengthDat,LagLength,Weight,IncludeMPA,ReserveYr,OutsideBoundYr,It
           #### Store Results ####
           ################
           
+          #### Store Results ####
+          ################
+          
           MCOutput[c,]<- c(i,Years[y],'LBAR',SampleSize[y],FvFmsy,'FvM',Flag)
           
           
@@ -411,7 +414,9 @@ LBAR<-function(LengthDat,LagLength,Weight,IncludeMPA,ReserveYr,OutsideBoundYr,It
       
     }
   }
-print(c("final lc=",Lc,"final lbar=",LbarOut))
+  print(c("final lc=",Lc,"final lbar=",LbarOut))
+          
+
   ################
   #### Produce Figures ####
   ################
@@ -420,31 +425,32 @@ print(c("final lc=",Lc,"final lbar=",LbarOut))
   if (sum(NumNans)<length(NumNans))
   {
     
-    pdf(file=paste(FigureFolder,' LBAR FvM Boxplots.pdf',sep=''))
-    boxplot((MCDetails$FishingMortality/M)~MCDetails$Year,frame=F,xlab='Year',ylab='F/M',notch=F,outline=F,width=SampleSize)
-    dev.off()
-    
-    pdf(file=paste(FigureFolder,' LBAR Fishing Mortality Boxplots.pdf',sep=''))
-    boxplot((MCDetails$FishingMortality)~MCDetails$Year,frame=F,xlab='Year',ylab='F',notch=F,outline=F,width=SampleSize)
-    dev.off()
-    
-    pdf(file=paste(FigureFolder,' LBAR Total Mortality Boxplots.pdf',sep=''))
-    boxplot((MCDetails$TotalMortality)~MCDetails$Year,frame=F,xlab='Year',ylab='Z',notch=F,outline=F, width=SampleSize)
-    dev.off()
-    
-    pdf(file=paste(FigureFolder,' LBAR Mean Length Boxplots.pdf',sep=''))
-    if(IncludeMPA == 1 & sum(is.na(MCDetails$Lbar_Inside))<length(MCDetails$Lbar_Inside)){
-      par(mfrow=c(1,2))
-      boxplot((MCDetails$Lbar_Inside)~MCDetails$Year,frame=F,xlab='Year',ylab='Mean Length',notch=F,main = "Mean Lengths Inside",outline=F, width=SampleSize)
-      boxplot((MCDetails$Lbar_Outside)~MCDetails$Year,frame=F,xlab='Year',ylab='Mean Length',notch=F,main = "Mean Lengths Outside",outline=F, width=SampleSize)
-    } else {
-      boxplot((MCDetails$Lbar_Outside)~MCDetails$Year,frame=F,xlab='Year',ylab='Mean Length',notch=F,main = "Mean Lengths Outside",outline=F, width=SampleSize)
+
+      pdf(file=paste(FigureFolder,unique(LengthDat$Species.ID),'_LBAR_results.pdf',sep=''))
+      boxplot((MCDetails$FishingMortality/M)~MCDetails$Year,frame=F,xlab='Year',ylab='F/M',notch=F,outline=F,width=SampleSize)
+   
+      
+   #   pdf(file=paste(FigureFolder,' LBAR Fishing Mortality Boxplots.pdf',sep=''))
+      boxplot((MCDetails$FishingMortality)~MCDetails$Year,frame=F,xlab='Year',ylab='F',notch=F,outline=F,width=SampleSize)
+    #  dev.off()
+      
+     # pdf(file=paste(FigureFolder,' LBAR Total Mortality Boxplots.pdf',sep=''))
+      boxplot((MCDetails$TotalMortality)~MCDetails$Year,frame=F,xlab='Year',ylab='Z',notch=F,outline=F, width=SampleSize)
+    #  dev.off()
+      
+    #  pdf(file=paste(FigureFolder,' LBAR Mean Length Boxplots.pdf',sep=''))
+      #if(IncludeMPA == 1 & sum(is.na(MCDetails$Lbar_Inside))<length(MCDetails$Lbar_Inside)){
+       # par(mfrow=c(1,2))
+        #boxplot((MCDetails$Lbar_Inside)~MCDetails$Year,frame=F,xlab='Year',ylab='Mean Length',notch=F,main = "Mean Lengths Inside",outline=F, width=SampleSize)
+        #boxplot((MCDetails$Lbar_Outside)~MCDetails$Year,frame=F,xlab='Year',ylab='Mean Length',notch=F,main = "Mean Lengths Outside",outline=F, width=SampleSize)
+      #} else {
+      #  boxplot((MCDetails$Lbar_Outside)~MCDetails$Year,frame=F,xlab='Year',ylab='Mean Length',notch=F,main = "Mean Lengths Outside",outline=F, width=SampleSize)
+      #}
+      dev.off()
     }
-    dev.off()
-  }
   
   Fish<- BaseFish
   
   return(list(Output=Output,Details=MCDetails))	
 }
-getwd()
+
